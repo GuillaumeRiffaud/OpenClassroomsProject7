@@ -32,13 +32,13 @@ class SignUpPage {
         new Promise(function(resolve, reject) {
             let request = new XMLHttpRequest();
             request.onreadystatechange = function() {
-                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 201) {
 
                     resolve(request.responseText);
 
                 } else if (this.readyState == XMLHttpRequest.DONE && this.status != 200) {
 
-                    reject(this.error);
+                    reject(request.responseText);
                 }
             }
             request.open("POST", "http://localhost:3000/api/auth/signup");
@@ -47,11 +47,11 @@ class SignUpPage {
         })
 
         .then(function(response) {
-                console.log("Utilisateur inscrit!");
+                HtmlContent.fillWith("main", JSON.parse(response).message);
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "Inscription échouée." + error);
+                HtmlContent.fillWith("main", "Inscription échouée. " + JSON.parse(error).error);
                 SignUpPage.display();
             });
     }
