@@ -37,7 +37,7 @@ class LogInPage {
 
                 } else if (this.readyState == XMLHttpRequest.DONE && this.status != 200) {
 
-                    reject(this.status);
+                    reject(request.responseText);
                 }
             }
             request.open("POST", "http://localhost:3000/api/auth/login");
@@ -50,8 +50,7 @@ class LogInPage {
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "Connexion échouée. " + error);
-                console.error(error);
+                HtmlContent.fillWith("main", "Connexion échouée. " + JSON.parse(error).error);
                 LogInPage.display();
             });
     }
