@@ -23,7 +23,12 @@ class SignUpController {
         })
 
         .then(function(response) {
-                HtmlContent.fillWith("main", JSON.parse(response).message);
+                let sessionToken = JSON.parse(response).token;
+                let userId = JSON.parse(response).userId;
+                sessionStorage.setItem("sessionToken", sessionToken);
+                sessionStorage.setItem("userId", userId);
+                HtmlContent.clear("main");
+                ArticleView.displayAll();
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
