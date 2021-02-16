@@ -11,14 +11,23 @@ class User {
             }
         });
     }
-    static findOne(email, callback) {
-        database.query('SELECT * FROM users WHERE email = ?', [email], (error, result) => {
+    static findOne(field, value, callback) {
+        database.query('SELECT * FROM users WHERE ' + field + '= ?', [value], (error, user) => {
             if (error) {
                 callback(error);
             } else {
-                callback(result[0]);
+                callback(user[0]);
             }
         })
+    }
+    static updateOne(field, value, id, callback) {
+        database.query('UPDATE users SET ' + field + ' = ? WHERE id= ?', [value, id], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
+            }
+        });
     }
 }
 
