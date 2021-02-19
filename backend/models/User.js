@@ -29,6 +29,15 @@ class User {
             }
         });
     }
+    static deleteOne(id, callback) {
+        database.query('DELETE FROM users WHERE id= ?', [id], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
+            }
+        });
+    }
 }
 
 module.exports = User;

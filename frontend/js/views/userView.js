@@ -23,6 +23,13 @@ class UserView {
                 <label>Confirmez le nouveau mot de passe <input type="password" id="userNewPassword2" required /></label>
                 </div>
                 <input id="modifyPasswordButton" type="submit" value="Modifier le mot de passe">
-            </form>`);
+            </form>
+            <button id="deleteUserButton" onclick="UserView.askConfirm();">Supprimer le compte</button>`);
+    }
+    static askConfirm() {
+        HtmlContent.fillWith("main",
+            `<p>Êtes-vous sûr de vouloir supprimer définitivement ce compte utilisateur ?</p>
+        <button id="deleteYes" onclick="UserController.delete();">Oui</button>
+        <button id="deleteNo" onclick="HtmlContent.clear('main');UserView.displayForms();">Non</button>`);
     }
 }

@@ -1,5 +1,10 @@
 class LogInView {
     static display() {
+        HtmlContent.clear("header");
+        HtmlContent.fillWith("header",
+            `<h1>
+            <a href="index.html"><img src="images/icon100x100.png" alt="logo de Groupomania" />Groupomania</a>
+        </h1>`);
         HtmlContent.fillWith("main",
             `<h2>Connexion</h2>
             <form id="loginForm" validate>
@@ -19,7 +24,7 @@ class LogInView {
         })
         document.getElementById("logInButton").addEventListener("click", (event) => {
             event.preventDefault();
-            LogInController.logInAttempt();
+            UserController.logInAttempt();
         })
     }
 

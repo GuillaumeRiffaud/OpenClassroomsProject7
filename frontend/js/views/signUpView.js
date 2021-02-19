@@ -20,7 +20,7 @@ class SignUpView {
         })
         document.getElementById("signUpButton").addEventListener("click", (event) => {
             event.preventDefault();
-            SignUpController.signUpAttempt();
+            UserController.signUpAttempt();
         })
     }
 

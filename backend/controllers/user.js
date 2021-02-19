@@ -96,3 +96,19 @@ exports.modify = (req, res, next) => {
         }
     })
 };
+
+exports.delete = (req, res, next) => {
+    User.findOne('id', req.body.userId, function(result) {
+        if (!result) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé !' });
+        } else {
+            User.deleteOne(req.body.userId, function(result) {
+                if (!result) {
+                    res.status(200).json({ message: "Compte utilisateur supprimé !" });
+                } else {
+                    return res.status(400).json({ error: 'Une erreur est survenue !' });
+                }
+            })
+        }
+    })
+};
