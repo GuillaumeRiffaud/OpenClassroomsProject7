@@ -15,4 +15,7 @@ class ArticleController { // non fonctionnel, à faire
                 HtmlContent.fillWith("main", "Chargement des articles échoué. " + JSON.parse(error).error);
             });
     }
+    static submitArticle() {
+        console.log("On va voir ce qu'on peut faire");
+    }
 }

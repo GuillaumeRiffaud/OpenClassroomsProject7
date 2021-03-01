@@ -1,7 +1,11 @@
 class ArticleView {
     static displayInterface() {
+        HtmlContent.clear("header");
         HtmlContent.fillWith("header",
-            `<a href="#" id="profileButton">⚙️Paramètres de compte</a>
+            `<h1>
+                <a href="index.html"><img src="images/icon100x100.png" alt="logo de Groupomania" />Groupomania</a>
+            </h1>
+            <a href="#" id="profileButton">⚙️Paramètres de compte</a>
             <button id="disconnectButton" onclick="UserController.logout();">Se déconnecter</button>`);
         HtmlContent.fillWith("main",
             `<button id="newArticleButton">Rédiger un article</button>`);
@@ -16,7 +20,7 @@ class ArticleView {
             HtmlContent.clear("header");
             HtmlContent.fillWith("header", `
                     <h1>
-                        <a href="#"><img src="images/icon100x100.png" alt="logo de Groupomania" />Groupomania</a>
+                        <a href="index.html"><img src="images/icon100x100.png" alt="logo de Groupomania" />Groupomania</a>
                     </h1>
                     <button id="disconnectButton" onclick="UserController.logout();" >Se déconnecter</button>`);
             UserView.displayForms();
