@@ -4,22 +4,7 @@ class UserController {
             email: document.getElementById("userEmail").value,
             password: document.getElementById("userPassword").value,
         }
-        new Promise(function(resolve, reject) {
-            let request = new XMLHttpRequest();
-            request.onreadystatechange = function() {
-                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-
-                    resolve(request.responseText);
-
-                } else if (this.readyState == XMLHttpRequest.DONE && this.status != 200) {
-
-                    reject(request.responseText);
-                }
-            }
-            request.open("POST", "http://localhost:3000/api/auth/login");
-            request.setRequestHeader("Content-Type", "application/json");
-            request.send(JSON.stringify(user));
-        })
+        RequestModel.filelessRequest("POST", "auth/login", 200, user)
 
         .then(function(response) {
                 let sessionToken = JSON.parse(response).token;
@@ -27,7 +12,7 @@ class UserController {
                 sessionStorage.setItem("sessionToken", sessionToken);
                 sessionStorage.setItem("userId", userId);
                 HtmlContent.clear("main");
-                ArticleView.displayAll();
+                ArticleView.displayInterface();
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
@@ -42,22 +27,7 @@ class UserController {
             email: document.getElementById("userEmail").value,
             password: document.getElementById("userPassword").value,
         };
-        new Promise(function(resolve, reject) {
-            let request = new XMLHttpRequest();
-            request.onreadystatechange = function() {
-                if (this.readyState == XMLHttpRequest.DONE && this.status == 201) {
-
-                    resolve(request.responseText);
-
-                } else if (this.readyState == XMLHttpRequest.DONE && this.status != 200) {
-
-                    reject(request.responseText);
-                }
-            }
-            request.open("POST", "http://localhost:3000/api/auth/signup");
-            request.setRequestHeader("Content-Type", "application/json");
-            request.send(JSON.stringify(user));
-        })
+        RequestModel.filelessRequest("POST", "auth/signup", 200, user)
 
         .then(function(response) {
                 let sessionToken = JSON.parse(response).token;
@@ -65,7 +35,7 @@ class UserController {
                 sessionStorage.setItem("sessionToken", sessionToken);
                 sessionStorage.setItem("userId", userId);
                 HtmlContent.clear("main");
-                ArticleView.displayAll();
+                ArticleView.displayInterface();
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
@@ -81,24 +51,9 @@ class UserController {
             newEmail: document.getElementById("userNewEmail").value,
             password: document.getElementById("userPassword").value,
         };
-        new Promise(function(resolve, reject) {
-                let request = new XMLHttpRequest();
-                request.onreadystatechange = function() {
-                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+        RequestModel.filelessRequest("PUT", "auth/modify", 200, userNewInfo, true)
 
-                        resolve(request.responseText);
-
-                    } else if (this.readyState == XMLHttpRequest.DONE && this.status != 200) {
-
-                        reject(request.responseText);
-                    }
-                }
-                request.open("PUT", "http://localhost:3000/api/auth/modify");
-                request.setRequestHeader("Content-Type", "application/json");
-                request.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("sessionToken"));
-                request.send(JSON.stringify(userNewInfo));
-            })
-            .then(function(response) {
+        .then(function(response) {
                 HtmlContent.clear("main");
                 HtmlContent.fillWith("main", `
                 <p>${JSON.parse(response).message}</p>`);
@@ -126,24 +81,9 @@ class UserController {
             newPassword: document.getElementById("userNewPassword1").value,
             password: document.getElementById("userOldPassword").value,
         };
-        new Promise(function(resolve, reject) {
-                let request = new XMLHttpRequest();
-                request.onreadystatechange = function() {
-                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+        RequestModel.filelessRequest("PUT", "auth/modify", 200, userNewInfo, true)
 
-                        resolve(request.responseText);
-
-                    } else if (this.readyState == XMLHttpRequest.DONE && this.status != 200) {
-
-                        reject(request.responseText);
-                    }
-                }
-                request.open("PUT", "http://localhost:3000/api/auth/modify");
-                request.setRequestHeader("Content-Type", "application/json");
-                request.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("sessionToken"));
-                request.send(JSON.stringify(userNewInfo));
-            })
-            .then(function(response) {
+        .then(function(response) {
                 HtmlContent.clear("main");
                 HtmlContent.fillWith("main", `
                     <p>${JSON.parse(response).message}</p>`);
@@ -165,24 +105,9 @@ class UserController {
         let userInfo = {
             userId: sessionStorage.getItem("userId"),
         };
-        new Promise(function(resolve, reject) {
-                let request = new XMLHttpRequest();
-                request.onreadystatechange = function() {
-                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+        RequestModel.filelessRequest("DELETE", "auth/delete", 200, userInfo, true)
 
-                        resolve(request.responseText);
-
-                    } else if (this.readyState == XMLHttpRequest.DONE && this.status != 200) {
-
-                        reject(request.responseText);
-                    }
-                }
-                request.open("DELETE", "http://localhost:3000/api/auth/delete");
-                request.setRequestHeader("Content-Type", "application/json");
-                request.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("sessionToken"));
-                request.send(JSON.stringify(userInfo));
-            })
-            .then(function(response) {
+        .then(function(response) {
                 sessionStorage.removeItem("sessionToken");
                 HtmlContent.clear("main");
                 HtmlContent.clear("header");

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 
 const userRoutes = require('./routes/user');
+const articlesRoutes = require('./routes/articles');
 
 const app = express();
 app.use(helmet());
@@ -22,5 +23,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
+app.use('/api/articles', articlesRoutes);
 
 module.exports = app;

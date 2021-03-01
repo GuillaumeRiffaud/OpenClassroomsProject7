@@ -3,12 +3,12 @@ class SignUpView {
         HtmlContent.fillWith("main", `<h2>Inscription</h2>
                                 <form id="signUpForm" validate>
                                     <div>
-                                        <label>Nom d'utilisateur <input type="text" id="userName" required /></label>
+                                        <label>Nom d'utilisateur</br><input type="text" id="userName" required /></label>
                                     <div>
-                                        <label>Adresse email <input type="email" id="userEmail" required /></label>
+                                        <label>Adresse email</br><input type="email" id="userEmail" required /></label>
                                     </div>
                                     <div>
-                                        <label>Mot de passe <input type="password" id="userPassword" required /></label>
+                                        <label>Mot de passe</br><input type="password" id="userPassword" required /></label>
                                     </div>
                                     <button id="signUpButton" type="submit">Inscription</button>
                                 </form>

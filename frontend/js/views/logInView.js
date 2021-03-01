@@ -9,10 +9,10 @@ class LogInView {
             `<h2>Connexion</h2>
             <form id="loginForm" validate>
                 <div>
-                    <label>Adresse email <input type="email" id="userEmail" required /></label>
+                    <label>Adresse email</br><input type="email" id="userEmail" required /></label>
                 </div>
                 <div>
-                    <label>Mot de passe <input type="password" id="userPassword" required /></label>
+                    <label>Mot de passe</br><input type="password" id="userPassword" required /></label>
                 </div>
                 <button id="logInButton" type="submit">Connexion</button>
             </form>
