@@ -38,32 +38,87 @@ class ArticleView {
                     `<article id="article${article.id}">
                         <h2>${article.title}</h2>
                         <div>Rédigé: ${article.creationDate}</div>
-                        <p>${article.content}</p>
+                        <div>Par: ${article.name}</div>`);
+                if (article.imageUrl) {
+                    HtmlContent.fillWith("articlesList", `<img src="../backend/${article.imageUrl}" alt="L'image associée à cet article" width="100" height="100" />`);
+                }
+                HtmlContent.fillWith("articlesList", `<p>${article.content}</p>
                         </article>`);
             }
+            articles.forEach((item, index, array) => {
+                if (document.getElementById("article" + item.id)) {
+                    document.getElementById("article" + item.id).addEventListener("click", () => {
+                        HtmlContent.clear("main");
+                        ArticleController.getOne(item.id);
+                    });
+                }
+            })
+
+
         } else { // réponse serveur sans article
             HtmlContent.fillWith("articlesList",
                 `<div>Aucun article à afficher.</div>`);
         }
 
     }
+
+    static displayOneArticle(article) {
+        HtmlContent.fillWith("main", `
+                <article><h2>${article.title}</h2>
+                <p>${article.content}</p>
+                <p>Rédigé par ${article.name} le ${article.creationDate}</p>
+        `);
+        if (article.authorId == sessionStorage.getItem("userId")) {
+            HtmlContent.fillWith("main", `
+                <button id="modifyArticleButton">Modifier l'article</button>
+                <button id="deleteArticleButton">Supprimer l'article</button>`);
+            document.getElementById('modifyArticleButton').addEventListener('click', () => {
+                HtmlContent.clear("main");
+                HtmlContent.fillWith("main", `
+                    <form id='modifyArticleForm'><div>
+                            <label>Titre de l'article</br><input type="text" id="title" name="title" value="${article.title}" required /></label>
+                        </div>
+                        <div>
+                            <label>Contenu de l'article</br><textarea type="text" id="content" name="content" required>${article.content}</textarea></label>
+                        </div>
+                        <label for="image">Joindre une image</br></label>
+                        <input type="file" id="image" name="image" accept="image/png, image/jpeg">
+                        </br>
+                        <input id="submitModifiedArticle" type="submit" value="Modifier l'article">
+                    </form>`);
+                document.getElementById('submitModifiedArticle').addEventListener("click", (event) => {
+                    event.preventDefault();
+                    ArticleController.modifyArticle(article.id);
+                });
+            });
+            document.getElementById('deleteArticleButton').addEventListener("click", (event) => {
+                event.preventDefault();
+                ArticleController.deleteArticle(article.id);
+            });
+        }
+    }
+
     static displayNewArticleForm() {
         HtmlContent.clear("main");
         HtmlContent.fillWith("main",
             `<h2>Nouvel article</h2>
-        <form id="newArticleForm" onsubmit="ArticleController.submitArticle();" enctype="multipart/form-data">
+        <form id="newArticleForm">
             <div>
-               <label>Titre de l'article</br><input type="text" id="articleTitle" required /></label>
+               <label>Titre de l'article</br><input type="text" id="title" name="title" required /></label>
             </div>
             <div>
-                <label>Contenu de l'article</br><textarea type="text" id="articleContent" required></textarea></label>
+                <label>Contenu de l'article</br><textarea type="text" id="content" name="content" required></textarea></label>
             </div>
-            <label for="articleImage">Joindre une image</br></label>
-            <input type="file" id="articleImage" name="articleImage" accept="image/png, image/jpeg">
+            <label for="image">Joindre une image</br></label>
+            <input type="file" id="image" name="image" accept="image/png, image/jpeg">
             </br>
             <input id="submitArticle" type="submit" value="Publier l'article">
         </form>
             `);
+        document.getElementById('submitArticle').addEventListener("click", (event) => {
+            event.preventDefault();
+            ArticleController.submitArticle();
+        });
     }
 
 }

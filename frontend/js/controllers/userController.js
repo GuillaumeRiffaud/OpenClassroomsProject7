@@ -4,7 +4,8 @@ class UserController {
             email: document.getElementById("userEmail").value,
             password: document.getElementById("userPassword").value,
         }
-        RequestModel.filelessRequest("POST", "auth/login", 200, user)
+
+        RequestModel.filelessRequest("POST", "/auth/login", 200, JSON.stringify(user))
 
         .then(function(response) {
                 let sessionToken = JSON.parse(response).token;
@@ -27,7 +28,7 @@ class UserController {
             email: document.getElementById("userEmail").value,
             password: document.getElementById("userPassword").value,
         };
-        RequestModel.filelessRequest("POST", "auth/signup", 200, user)
+        RequestModel.filelessRequest("POST", "/auth/signup", 200, JSON.stringify(user))
 
         .then(function(response) {
                 let sessionToken = JSON.parse(response).token;
@@ -51,7 +52,7 @@ class UserController {
             newEmail: document.getElementById("userNewEmail").value,
             password: document.getElementById("userPassword").value,
         };
-        RequestModel.filelessRequest("PUT", "auth/modify", 200, userNewInfo, true)
+        RequestModel.filelessRequest("PUT", "/auth/modify", 200, JSON.stringify(userNewInfo), true)
 
         .then(function(response) {
                 HtmlContent.clear("main");
@@ -81,7 +82,8 @@ class UserController {
             newPassword: document.getElementById("userNewPassword1").value,
             password: document.getElementById("userOldPassword").value,
         };
-        RequestModel.filelessRequest("PUT", "auth/modify", 200, userNewInfo, true)
+
+        RequestModel.filelessRequest("PUT", "/auth/modify", 200, JSON.stringify(userNewInfo), true)
 
         .then(function(response) {
                 HtmlContent.clear("main");
@@ -105,7 +107,7 @@ class UserController {
         let userInfo = {
             userId: sessionStorage.getItem("userId"),
         };
-        RequestModel.filelessRequest("DELETE", "auth/delete", 200, userInfo, true)
+        RequestModel.filelessRequest("DELETE", "/auth/delete", 200, JSON.stringify(userInfo), true)
 
         .then(function(response) {
                 sessionStorage.removeItem("sessionToken");

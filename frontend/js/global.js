@@ -1,3 +1,5 @@
+const APIURL = "http://localhost:3000";
+
 class Homepage {
     static determine() {
         if (!sessionStorage.getItem("sessionToken")) {
