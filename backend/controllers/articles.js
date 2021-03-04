@@ -22,6 +22,9 @@ exports.getOneArticle = (req, res, next) => {
 }
 
 exports.postNewArticle = (req, res, next) => {
+    if (!req.body.title || !req.body.content || !req.body.authorId || !req.body.userId) {
+        return res.status(400).json({ error: 'Bad request !' });
+    }
     const articleObject = req.file ? {
         ...req.body,
         imageUrl: `images/${req.file.filename}`
@@ -36,6 +39,18 @@ exports.postNewArticle = (req, res, next) => {
 }
 
 exports.modifyArticle = (req, res, next) => {
+    if (!req.body.title || !req.body.content || !req.body.authorId || !req.body.userId || !req.body.id) {
+        return res.status(400).json({ error: 'Bad request !' });
+    }
+    Article.findOne(req.params.id, function(result) {
+        if (!result) {
+            return res.status(404).json({ error });
+        } else {
+            if (result.imageUrl || req.file) {
+                fs.unlink(`${result.imageUrl}`, () => {});
+            }
+        }
+    });
     const articleObject = req.file ? {
         ...req.body,
         imageUrl: `images/${req.file.filename}`
@@ -47,4 +62,24 @@ exports.modifyArticle = (req, res, next) => {
             return res.status(400).json({ error: result });
         }
     });
+}
+
+exports.deleteArticle = (req, res, next) => {
+    Article.findOne(req.params.id, function(result) {
+        if (!result) {
+            return res.status(404).json({ error });
+        } else {
+            if (result.imageUrl) {
+                fs.unlink(`${result.imageUrl}`, () => {});
+            }
+            Article.deleteOne(req.params.id, function(result) {
+                if (!result) {
+                    res.status(200).json({ message: "Article supprimé !" });
+                } else {
+                    return res.status(400).json({ error: 'Une erreur est survenue !' });
+                }
+            })
+        }
+    });
+
 }

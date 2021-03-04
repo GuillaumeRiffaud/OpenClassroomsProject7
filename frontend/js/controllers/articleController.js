@@ -3,8 +3,7 @@ class ArticleController { // non fonctionnel, à faire
         let userInfo = {
             userId: sessionStorage.getItem("userId"),
         };
-        JSON.stringify(userInfo);
-        RequestModel.filelessRequest("GET", "/articles", 200, userInfo, true)
+        RequestModel.filelessRequest("GET", "/articles", 200, JSON.stringify(userInfo), true)
 
         .then(function(response) {
                 let articles = JSON.parse(response).result;
@@ -12,7 +11,7 @@ class ArticleController { // non fonctionnel, à faire
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "Chargement des articles échoué. " + JSON.parse(error).error);
+                HtmlContent.fillWith("main", "<div>Chargement des articles échoué. " + JSON.parse(error) + "</div>");
             });
     }
 
@@ -24,35 +23,54 @@ class ArticleController { // non fonctionnel, à faire
                 ArticleView.displayOneArticle(article);
             })
             .catch(function(error) {
-                HtmlContent.fillWith("main", "Chargement de l'article échoué. " + JSON.parse(error).error);
+                HtmlContent.fillWith("main", "<div>Chargement de l'article échoué. " + JSON.parse(error) + "</div>");
             });
     }
 
     static submitArticle() {
         let formData = new FormData(document.getElementById("newArticleForm"));
         formData.append("authorId", sessionStorage.getItem("userId"));
+        formData.append("userId", sessionStorage.getItem("userId"));
 
         RequestModel.withFileRequest("POST", "/articles", 201, formData, true)
             .then(function(response) {
-                console.log(response);
+                HtmlContent.clear("main");
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(response).message + "</div>");
             })
             .catch(function(error) {
-                console.log(error);
+                HtmlContent.clear("main");
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
             });
     }
 
     static modifyArticle(articleId) {
         let formData = new FormData(document.getElementById("modifyArticleForm"));
         formData.append("authorId", sessionStorage.getItem("userId"));
+        formData.append("userId", sessionStorage.getItem("userId"));
         formData.append("id", articleId);
-        console.log(formData);
 
         RequestModel.withFileRequest("PUT", "/articles/" + articleId, 201, formData, true)
             .then(function(response) {
-                console.log(response);
+                HtmlContent.clear("main");
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(response).message + "</div>");
             })
             .catch(function(error) {
-                console.log(error);
+                HtmlContent.clear("main");
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
+            });
+    }
+    static deleteArticle(articleId) {
+        let userInfo = {
+            userId: sessionStorage.getItem("userId"),
+        };
+        RequestModel.filelessRequest("DELETE", "/articles/" + articleId, 200, JSON.stringify(userInfo), true)
+            .then(function(response) {
+                HtmlContent.clear("main");
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(response).message + "</div>");
+            })
+            .catch(function(error) {
+                HtmlContent.clear("main");
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
             });
     }
 }

@@ -5,19 +5,21 @@ class UserController {
             password: document.getElementById("userPassword").value,
         }
 
-        RequestModel.filelessRequest("POST", "/auth/login", 200, JSON.stringify(user))
+        RequestModel.filelessRequest("POST", "/auth/login", 200, JSON.stringify(user), false)
 
         .then(function(response) {
                 let sessionToken = JSON.parse(response).token;
                 let userId = JSON.parse(response).userId;
+                let username = JSON.parse(response).username;
                 sessionStorage.setItem("sessionToken", sessionToken);
                 sessionStorage.setItem("userId", userId);
+                sessionStorage.setItem("username", username);
                 HtmlContent.clear("main");
                 ArticleView.displayInterface();
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "Connexion échouée. " + JSON.parse(error).error);
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(error).error + "</div>");
                 LogInView.display();
             });
     }
@@ -40,7 +42,7 @@ class UserController {
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "Inscription échouée. " + JSON.parse(error).error);
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(error).error + "</div>");
                 SignUpView.display();
             });
     }
@@ -61,7 +63,7 @@ class UserController {
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "Connexion échouée. " + JSON.parse(error).error);
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
             });
 
     }
@@ -92,12 +94,13 @@ class UserController {
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "Connexion échouée. " + JSON.parse(error).error);
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
             });
     }
 
     static logout() {
         sessionStorage.removeItem("sessionToken");
+        sessionStorage.removeItem("userId");
         HtmlContent.clear("main");
         HtmlContent.clear("header");
         LogInView.display();
@@ -123,7 +126,7 @@ class UserController {
             })
             .catch(function(error) {
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "Suppression impossible. " + JSON.parse(error).error);
+                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
             });
     }
 }

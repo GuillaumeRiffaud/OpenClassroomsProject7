@@ -40,7 +40,7 @@ class ArticleView {
                         <div>Rédigé: ${article.creationDate}</div>
                         <div>Par: ${article.name}</div>`);
                 if (article.imageUrl) {
-                    HtmlContent.fillWith("articlesList", `<img src="../backend/${article.imageUrl}" alt="L'image associée à cet article" width="100" height="100" />`);
+                    HtmlContent.fillWith("articlesList", `<img src="${APIURL}/${article.imageUrl}" alt="L'image associée à cet article" width="100" height="100" />`);
                 }
                 HtmlContent.fillWith("articlesList", `<p>${article.content}</p>
                         </article>`);
@@ -63,6 +63,9 @@ class ArticleView {
     }
 
     static displayOneArticle(article) {
+        if (article.imageUrl) {
+            HtmlContent.fillWith("main", `<img src="${APIURL}/${article.imageUrl}" alt="L'image associée à cet article" width="100" height="100" />`);
+        }
         HtmlContent.fillWith("main", `
                 <article><h2>${article.title}</h2>
                 <p>${article.content}</p>

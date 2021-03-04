@@ -46,6 +46,15 @@ class Article {
                 }
             });
     }
+    static deleteOne(id, callback) {
+        database.query('DELETE FROM articles WHERE id= ?', [id], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
+            }
+        });
+    }
 }
 
 module.exports = Article;
