@@ -5,8 +5,7 @@ class Comment {
         database.query(`SELECT comments.id, comments.authorId, comments.creationDate, comments.content, users.name FROM comments 
                             INNER JOIN users
                                 ON comments.authorId = users.id
-                            INNER JOIN articles
-                                ON articles.id = ?
+                        WHERE comments.articleId = ?
                         ORDER BY comments.creationDate`, [id], (error, result) => {
             if (error) {
                 callback(error);

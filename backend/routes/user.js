@@ -3,7 +3,7 @@ const router = express.Router();
 const userCtrl = require('../controllers/user');
 const auth = require('../middleware/auth');
 
-router.post('/signup', userCtrl.signup, userCtrl.login);
+router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.put('/modify', auth.withBody, userCtrl.modify);
 router.delete('/delete', auth.withBody, userCtrl.delete);

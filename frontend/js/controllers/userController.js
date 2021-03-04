@@ -30,7 +30,7 @@ class UserController {
             email: document.getElementById("userEmail").value,
             password: document.getElementById("userPassword").value,
         };
-        RequestModel.filelessRequest("POST", "/auth/signup", 200, JSON.stringify(user))
+        RequestModel.filelessRequest("POST", "/auth/signup", 201, JSON.stringify(user))
 
         .then(function(response) {
                 let sessionToken = JSON.parse(response).token;

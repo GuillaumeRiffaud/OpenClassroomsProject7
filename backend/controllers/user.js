@@ -14,7 +14,21 @@ exports.signup = (req, res, next) => {
         .then(hash => {
             User.save(req.body.name, req.body.email, hash, function(result) {
                 if (!result) {
-                    return res.status(201).json({ message: 'Utilisateur créé !' })
+                    User.findOne('email', req.body.email, function(result) {
+                        if (!result) {
+                            return res.status(404).json({ error: 'Utilisateur non trouvé !' });
+                        } else {
+                            return res.status(201).json({
+                                message: 'Utilisateur créé !',
+                                username: result.name,
+                                userId: result.id,
+                                token: jwt.sign({ userId: result.id },
+                                    'NOT_A_SECRET_ENOUGH_TOKEN_FOR_PROD', { expiresIn: '24h' }
+                                )
+                            });
+                        }
+                    });
+
                 } else {
                     return res.status(400).json({ error: 'Compte existant déjà !' });
                 }
