@@ -1,0 +1,9 @@
+const express = require('express');
+const router = express.Router();
+const commentCtrl = require('../controllers/comments');
+const auth = require('../middleware/auth');
+
+router.get('/:id', auth.withoutBody, commentCtrl.getAllComments);
+
+
+module.exports = router;

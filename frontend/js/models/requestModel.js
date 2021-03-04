@@ -11,6 +11,7 @@ class RequestModel {
                 } else if (this.readyState == XMLHttpRequest.DONE && this.status != expectedStatus) {
 
                     reject(request.responseText);
+
                 }
             }
 

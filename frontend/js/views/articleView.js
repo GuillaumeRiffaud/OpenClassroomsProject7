@@ -99,6 +99,10 @@ class ArticleView {
                 ArticleController.deleteArticle(article.id);
             });
         }
+        const section = document.createElement('section');
+        section.setAttribute("id", "commentsList");
+        document.getElementById('main').appendChild(section);
+        CommentController.loadAll(article);
     }
 
     static displayNewArticleForm() {
