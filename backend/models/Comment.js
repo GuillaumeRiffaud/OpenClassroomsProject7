@@ -12,7 +12,44 @@ class Comment {
             } else {
                 callback(result);
             }
-        })
+        });
+    }
+    static save(commentObject, callback) {
+        database.query('INSERT INTO comments SET articleId = ?, authorId = ?, content = ?', [commentObject.articleId, commentObject.userId, commentObject.content], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
+            }
+        });
+    }
+    static findOne(id, callback) {
+        database.query(`SELECT * FROM comments WHERE id = ?`, [id], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(result[0]);
+            }
+        });
+    }
+    static updateOne(id, content, callback) {
+        database.query('UPDATE comments SET content = ? WHERE id = ?', [content, id],
+            (error, result) => {
+                if (error) {
+                    callback(error);
+                } else {
+                    callback(null);
+                }
+            });
+    }
+    static deleteOne(id, callback) {
+        database.query('DELETE FROM comments WHERE id= ?', [id], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
+            }
+        });
     }
 }
 

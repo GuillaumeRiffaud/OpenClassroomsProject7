@@ -33,7 +33,7 @@ class ArticleView {
     }
     static displayAllArticles(articles) {
         if (articles && articles.length > 0) { // réponse serveur avec des articles
-            for (const article of articles) {
+            for (const article of articles) { // affiche les infos de chaque article
                 HtmlContent.fillWith("articlesList",
                     `<article id="article${article.id}">
                         <h2>${article.title}</h2>
@@ -45,7 +45,7 @@ class ArticleView {
                 HtmlContent.fillWith("articlesList", `<p>${article.content}</p>
                         </article>`);
             }
-            articles.forEach((item, index, array) => {
+            articles.forEach((item, index, array) => { // rend chaque article cliquable pour accéder à sa page unique
                 if (document.getElementById("article" + item.id)) {
                     document.getElementById("article" + item.id).addEventListener("click", () => {
                         HtmlContent.clear("main");
@@ -87,9 +87,9 @@ class ArticleView {
                         <label for="image">Joindre une image</br></label>
                         <input type="file" id="image" name="image" accept="image/png, image/jpeg">
                         </br>
-                        <input id="submitModifiedArticle" type="submit" value="Modifier l'article">
+                        <input type="submit" value="Modifier l'article">
                     </form>`);
-                document.getElementById('submitModifiedArticle').addEventListener("click", (event) => {
+                document.getElementById('modifyArticleForm').addEventListener("submit", (event) => {
                     event.preventDefault();
                     ArticleController.modifyArticle(article.id);
                 });
@@ -122,7 +122,7 @@ class ArticleView {
             <input id="submitArticle" type="submit" value="Publier l'article">
         </form>
             `);
-        document.getElementById('submitArticle').addEventListener("click", (event) => {
+        document.getElementById('newArticleForm').addEventListener("submit", (event) => {
             event.preventDefault();
             ArticleController.submitArticle();
         });
