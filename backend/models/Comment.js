@@ -1,12 +1,12 @@
 const database = require('../config/database');
 
 class Comment {
-    static find(id, callback) {
-        database.query(`SELECT comments.id, comments.authorId, comments.creationDate, comments.content, users.name FROM comments 
+    static find(articleId, callback) {
+        database.query(`SELECT comments.id, comments.articleId, comments.authorId, comments.creationDate, comments.content, users.name FROM comments 
                             INNER JOIN users
                                 ON comments.authorId = users.id
                         WHERE comments.articleId = ?
-                        ORDER BY comments.creationDate`, [id], (error, result) => {
+                        ORDER BY comments.creationDate`, [articleId], (error, result) => {
             if (error) {
                 callback(error);
             } else {
@@ -23,8 +23,8 @@ class Comment {
             }
         });
     }
-    static findOne(id, callback) {
-        database.query(`SELECT * FROM comments WHERE id = ?`, [id], (error, result) => {
+    static findOne(commentId, callback) {
+        database.query(`SELECT * FROM comments WHERE id = ?`, [commentId], (error, result) => {
             if (error) {
                 callback(error);
             } else {
@@ -32,8 +32,8 @@ class Comment {
             }
         });
     }
-    static updateOne(id, content, callback) {
-        database.query('UPDATE comments SET content = ? WHERE id = ?', [content, id],
+    static updateOne(commentId, content, callback) {
+        database.query('UPDATE comments SET content = ? WHERE id = ?', [content, commentId],
             (error, result) => {
                 if (error) {
                     callback(error);
@@ -42,8 +42,8 @@ class Comment {
                 }
             });
     }
-    static deleteOne(id, callback) {
-        database.query('DELETE FROM comments WHERE id= ?', [id], (error, result) => {
+    static deleteOne(commentId, callback) {
+        database.query('DELETE FROM comments WHERE id= ?', [commentId], (error, result) => {
             if (error) {
                 callback(error);
             } else {

@@ -1,5 +1,4 @@
 const Article = require('../models/Article');
-const Comment = require('../models/Comment');
 const fs = require('fs');
 
 exports.getAllArticles = (req, res, next) => {
@@ -78,17 +77,6 @@ exports.deleteArticle = (req, res, next) => {
                 if (article.imageUrl) { // s'il y a une image, on la supprime
                     fs.unlink(`${article.imageUrl}`, () => {});
                 }
-                Comment.find(req.params.id, function(comments) { // on cherche les commentaires liés à l'article
-                    if (comments) {
-                        for (let comment of comments) { // s'il y en a, on les supprime
-                            Comment.deleteOne(comment.id, function(result) {
-                                if (result) {
-                                    return res.status(400).json({ error: 'Une erreur est survenue !' });
-                                }
-                            });
-                        }
-                    }
-                });
                 Article.deleteOne(req.params.id, function(result) {
                     if (!result) {
                         res.status(200).json({ message: "Article supprimé !" });

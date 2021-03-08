@@ -1,4 +1,6 @@
+const { createPool } = require('mysql');
 const database = require('../config/database');
+const Comment = require('../models/Comment');
 
 class Article {
     static find(callback) {
@@ -11,7 +13,17 @@ class Article {
             } else {
                 callback(result);
             }
-        })
+        });
+    }
+
+    static findByUserId(userId, callback) {
+        database.query(`SELECT * FROM articles WHERE authorId = ?`, [userId], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(result);
+            }
+        });
     }
 
     static findOne(id, callback) {
@@ -24,7 +36,7 @@ class Article {
             } else {
                 callback(result[0]);
             }
-        })
+        });
     }
 
     static save(articleObject, callback) {
@@ -46,8 +58,21 @@ class Article {
                 }
             });
     }
-    static deleteOne(id, callback) {
-        database.query('DELETE FROM articles WHERE id= ?', [id], (error, result) => {
+    static deleteOne(articleId, callback) {
+        Comment.find(articleId, function(comments) { // on cherche les commentaires liés à l'article
+            if (comments) {
+                console.log('Commentaires qui devraient être supprimés: ', comments);
+                for (let comment of comments) { // s'il y en a, on les supprime
+
+                    Comment.deleteOne(comment.id, function(result) {
+                        if (result) {
+                            callback(result);
+                        }
+                    });
+                }
+            }
+        });
+        database.query('DELETE FROM articles WHERE id= ?', [articleId], (error, result) => {
             if (error) {
                 callback(error);
             } else {
