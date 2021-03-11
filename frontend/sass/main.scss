@@ -1,0 +1,19 @@
+@import "./utils/variables";
+@import "./base/typography";
+@import "./components/buttons";
+@import "./components/loading";
+@import "./layout/forms";
+@import "./layout/header";
+@import "./layout/main";
+@import "./layout/articles";
+@import "./layout/comments";
+@import "./utils/mixins";
+body {
+    margin: auto;
+    max-width: 1200px;
+    background-color: $color-tertiary;
+    a {
+        color: $color-secondary;
+        text-decoration: none;
+    }
+}

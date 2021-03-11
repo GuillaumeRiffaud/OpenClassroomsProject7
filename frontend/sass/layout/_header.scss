@@ -1,0 +1,29 @@
+header {
+    background-image: linear-gradient($color-primary-alpha, $color-primary-alpha), url("../images/background-header.png");
+    margin: 0;
+    padding-bottom: 1%;
+    align-items: center;
+    h1 {
+        margin: 0;
+        a {
+            color: lighten($color-tertiary, 30%);
+        }
+    }
+    img {
+        vertical-align: middle;
+    }
+    .home {
+        font-size: larger;
+        position: relative;
+        top: 30px;
+        left: 60px;
+    }
+    nav {
+        text-align: right;
+        margin-right: 1.5%;
+        a {
+            position: static;
+            padding-right: 2%;
+        }
+    }
+}

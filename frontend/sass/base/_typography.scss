@@ -1,0 +1,26 @@
+@font-face {
+    font-family: "montserra_regular";
+    src: url('../fonts/Montserrat-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'belligerent_madnessregular';
+    src: url('../fonts/belligerent-webfont.eot');
+    src: url('../fonts/belligerent-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/belligerent-webfont.woff') format('woff'), url('../fonts/belligerent-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-size: large;
+    font-weight: bold;
+    font-family: "montserra_regular", Arial, Helvetica, sans-serif;
+    color: $color-primary;
+}
+
+textarea {
+    font-family: "montserra_regular", Arial, Helvetica, sans-serif;
+    font-size: large;
+}

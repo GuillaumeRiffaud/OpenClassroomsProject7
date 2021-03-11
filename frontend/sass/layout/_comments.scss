@@ -1,0 +1,15 @@
+.commentsList {
+    margin: 5%;
+}
+
+.comment {
+    padding: 1%;
+    border: 2px solid $color-primary;
+    border-radius: 5px;
+    margin-bottom: 1%;
+    .comment__info {
+        text-align: right;
+        font-style: italic;
+        font-size: medium;
+    }
+}

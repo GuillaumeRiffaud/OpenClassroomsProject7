@@ -1,0 +1,27 @@
+main {
+    margin: 0;
+}
+
+h2 {
+    margin: 2%;
+}
+
+.connectionPortal {
+    background-color: $color-tertiary;
+    max-width: 50%;
+    margin: auto;
+    margin-top: 10%;
+    justify-content: center;
+    text-align: center;
+    border: 2px solid $color-primary;
+    border-radius: 5px;
+    padding: 2%;
+}
+
+.message {
+    margin-top: 2%;
+    text-align: center;
+    &--error {
+        color: red;
+    }
+}

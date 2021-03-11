@@ -4,10 +4,11 @@ class UserController {
             email: document.getElementById("userEmail").value,
             password: document.getElementById("userPassword").value,
         }
-
         RequestModel.filelessRequest("POST", "/auth/login", 200, JSON.stringify(user), false)
 
+
         .then(function(response) {
+                LoadingScreen.stop();
                 let sessionToken = JSON.parse(response).token;
                 let userId = JSON.parse(response).userId;
                 let username = JSON.parse(response).username;
@@ -18,8 +19,9 @@ class UserController {
                 ArticleView.displayInterface();
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(error).error + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>" + JSON.parse(error).error + "</div>");
                 LogInView.display();
             });
     }
@@ -33,6 +35,7 @@ class UserController {
         RequestModel.filelessRequest("POST", "/auth/signup", 201, JSON.stringify(user))
 
         .then(function(response) {
+                LoadingScreen.stop();
                 let sessionToken = JSON.parse(response).token;
                 let userId = JSON.parse(response).userId;
                 sessionStorage.setItem("sessionToken", sessionToken);
@@ -41,8 +44,9 @@ class UserController {
                 ArticleView.displayInterface();
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(error).error + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>" + JSON.parse(error).error + "</div>");
                 SignUpView.display();
             });
     }
@@ -57,13 +61,16 @@ class UserController {
         RequestModel.filelessRequest("PUT", "/auth/modify", 200, JSON.stringify(userNewInfo), true)
 
         .then(function(response) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
                 HtmlContent.fillWith("main", `
-                <p>${JSON.parse(response).message}</p>`);
+                <p class='message'>${JSON.parse(response).message}</p>`);
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>" + JSON.parse(error).error + "</div>");
+                UserView.displayForms();
             });
 
     }
@@ -71,7 +78,7 @@ class UserController {
     static checkPasswords() {
         if (document.getElementById("userNewPassword1").value !== (document.getElementById("userNewPassword2").value)) {
             HtmlContent.clear("main");
-            HtmlContent.fillWith("main", "<p>Erreur: les mots de passe ne correspondent pas!</p>");
+            HtmlContent.fillWith("main", "<p class='message message--error'>Erreur: les mots de passe ne correspondent pas!</p>");
             UserView.displayForms();
             return console.log('Modification empêchée');
         } else {
@@ -84,17 +91,18 @@ class UserController {
             newPassword: document.getElementById("userNewPassword1").value,
             password: document.getElementById("userOldPassword").value,
         };
-
         RequestModel.filelessRequest("PUT", "/auth/modify", 200, JSON.stringify(userNewInfo), true)
 
         .then(function(response) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
                 HtmlContent.fillWith("main", `
-                    <p>${JSON.parse(response).message}</p>`);
+                    <p class='message'>${JSON.parse(response).message}</p>`);
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>" + JSON.parse(error).error + "</div>");
             });
     }
 
@@ -113,6 +121,7 @@ class UserController {
         RequestModel.filelessRequest("DELETE", "/auth/delete", 200, JSON.stringify(userInfo), true)
 
         .then(function(response) {
+                LoadingScreen.stop();
                 sessionStorage.removeItem("sessionToken");
                 HtmlContent.clear("main");
                 HtmlContent.clear("header");
@@ -120,13 +129,15 @@ class UserController {
                     `<h1>
                     <a href="index.html"><img src="images/icon100x100.png" alt="logo de Groupomania" />Groupomania</a>
                     </h1>`);
-                HtmlContent.fillWith("main", `
+                HtmlContent.fillWith("main", `<div class='message'>
                         <p>${JSON.parse(response).message}</p>
-                        <a href="index.html">Retour à la page de connexion.</a>`);
+                        <a href="index.html">Retour à la page de connexion.</a>
+                        </div>`);
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>" + JSON.parse(error).error + "</div>");
             });
     }
 }

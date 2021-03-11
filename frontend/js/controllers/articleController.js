@@ -3,15 +3,20 @@ class ArticleController { // non fonctionnel, à faire
         let userInfo = {
             userId: sessionStorage.getItem("userId"),
         };
+
         RequestModel.filelessRequest("GET", "/articles", 200, JSON.stringify(userInfo), true)
 
         .then(function(response) {
+                LoadingScreen.stop();
+                HtmlContent.clear("main");
                 let articles = JSON.parse(response).result;
                 ArticleView.displayAllArticles(articles);
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>Chargement des articles échoué. " + JSON.parse(error) + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>Chargement des articles échoué.</div>");
+                console.log(error);
             });
     }
 
@@ -19,11 +24,14 @@ class ArticleController { // non fonctionnel, à faire
         RequestModel.filelessRequest("GET", "/articles/" + ArticleId, 200, "", true)
 
         .then(function(response) {
+                LoadingScreen.stop();
                 let article = JSON.parse(response).result;
                 ArticleView.displayOneArticle(article);
             })
             .catch(function(error) {
-                HtmlContent.fillWith("main", "<div>Chargement de l'article échoué. " + JSON.parse(error) + "</div>");
+                LoadingScreen.stop();
+                HtmlContent.fillWith("main", "<div class='message message--error'>Chargement de l'article échoué.</div>");
+                console.log(error);
             });
     }
 
@@ -34,12 +42,15 @@ class ArticleController { // non fonctionnel, à faire
 
         RequestModel.withFileRequest("POST", "/articles", 201, formData, true)
             .then(function(response) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(response).message + "</div>");
+                HtmlContent.fillWith("main", "<div class='message'>" + JSON.parse(response).message + "</div>");
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>Erreur lors de l'envoi de l'article.</div>");
+                console.log(error);
             });
     }
 
@@ -51,12 +62,15 @@ class ArticleController { // non fonctionnel, à faire
 
         RequestModel.withFileRequest("PUT", "/articles/" + articleId, 201, formData, true)
             .then(function(response) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(response).message + "</div>");
+                HtmlContent.fillWith("main", "<div class='message'>" + JSON.parse(response).message + "</div>");
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>Erreur lors de la modification de l'article.</div>");
+                console.log(error);
             });
     }
     static deleteArticle(articleId) {
@@ -65,12 +79,15 @@ class ArticleController { // non fonctionnel, à faire
         };
         RequestModel.filelessRequest("DELETE", "/articles/" + articleId, 200, JSON.stringify(userInfo), true)
             .then(function(response) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(response).message + "</div>");
+                HtmlContent.fillWith("main", "<div class='message'>" + JSON.parse(response).message + "</div>");
             })
             .catch(function(error) {
+                LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div>" + JSON.parse(error) + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>Erreur lors de la suppression de l'article.</div>");
+                console.log(error);
             });
     }
 }

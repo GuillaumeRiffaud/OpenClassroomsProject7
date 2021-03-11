@@ -1,0 +1,31 @@
+button,
+input:not(.input--image) {
+    border-radius: 4px;
+    border: 0px;
+    padding: .5%;
+    font-size: large;
+    font-weight: bold;
+    color: lighten($color-tertiary, 30%);
+    background-color: $color-secondary;
+    &:hover {
+        cursor: pointer;
+        color: lighten($color-tertiary, 30%);
+        background-color: lighten($color-secondary, 10%);
+    }
+}
+
+article button {
+    display: inline-block;
+    justify-content: right;
+}
+
+.input--image {
+    font-size: large;
+    margin-bottom: 2%;
+}
+
+.newArticleButton {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+}

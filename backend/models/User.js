@@ -32,36 +32,13 @@ class User {
         });
     }
     static deleteOne(userId, callback) {
-        Article.findByUserId(userId, function(articles) { // on cherche les articles liés à l'utilisateur
-            if (articles) {
-                console.log('Articles qui devraient être supprimés:', articles);
-                for (let article of articles) { // s'il y en a, on les supprime
-                    if (article.imageUrl) { // si l'article possède une image, on  la supprime
-                        fs.unlink(`${article.imageUrl}`, () => {});
-                    }
-                    Article.deleteOne(article.id, function(error) {
-                        if (error) {
-                            callback(error);
-                        }
-                    });
-
-                }
+        database.query('DELETE FROM users WHERE id= ?', [userId], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
             }
-            database.query('DELETE FROM comments WHERE authorId = ?', [userId], (error, result) => {
-                if (error) {
-                    callback(error);
-                }
-            });
-            database.query('DELETE FROM users WHERE id= ?', [userId], (error, result) => {
-                if (error) {
-                    callback(error);
-                } else {
-                    callback(null);
-                }
-            });
         });
-
-
     }
 }
 

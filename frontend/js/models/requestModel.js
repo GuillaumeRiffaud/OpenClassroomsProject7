@@ -1,5 +1,6 @@
 class RequestModel {
     static filelessRequest(type, address, expectedStatus, dataToSend, needsAuth) { // model for a request that has no file
+        LoadingScreen.show();
         return new Promise(function(resolve, reject) {
 
             let request = new XMLHttpRequest();
@@ -24,6 +25,7 @@ class RequestModel {
         })
     }
     static withFileRequest(type, address, expectedStatus, dataToSend, needsAuth) { // model for a request that has a file
+        // LoadingScreen.show();
         return new Promise(function(resolve, reject) {
             let request = new XMLHttpRequest();
             request.onreadystatechange = function() {

@@ -1,0 +1,20 @@
+form {
+    margin: 2%;
+    .input--text {
+        margin: 1% 0%;
+        border: 1px solid $color-primary;
+        color: $color-primary;
+        background-color: lighten($color-tertiary, 30%);
+        cursor: text;
+        &:hover {
+            color: $color-primary;
+            background-color: lighten($color-tertiary, 30%);
+            cursor: text;
+        }
+    }
+    textarea {
+        border-radius: 5px;
+        width: 60%;
+        height: 100px;
+    }
+}

@@ -51,6 +51,24 @@ class Comment {
             }
         });
     }
+    static deleteByArticleId(articleId, callback) {
+        database.query('DELETE FROM comments WHERE articleId= ?', [articleId], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
+            }
+        });
+    }
+    static deleteByUserId(userId, callback) {
+        database.query('DELETE FROM comments WHERE authorId= ?', [userId], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
+            }
+        });
+    }
 }
 
 module.exports = Comment;

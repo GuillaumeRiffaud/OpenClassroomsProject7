@@ -3,21 +3,21 @@ class CommentView {
         HtmlContent.fillWith("commentsList", `
             <form id="newCommentForm" validate>
                 <div>
-                    <label>Ajouter un commentaire</br><textarea type="text" id="newCommentContent" name="newCommentContent" required></textarea></label>
+                    <label>Ajouter un commentaire :</br><textarea type="text" id="newCommentContent" name="newCommentContent" required></textarea></label>
                 </div>
                 <button>Envoyer</button>
             </form>`);
         if (comments && comments.length > 0) { // réponse serveur avec des commentaires
             for (const comment of comments) { // met en page les informations de chaque commentaire
                 HtmlContent.fillWith("commentsList",
-                    `<div id="comment${comment.id}">
-                        <p>${comment.content}</p>
-                        <p>Commenté: ${comment.creationDate}</p>
-                        <p>Par: ${comment.name}</p>
+                    `<div class="comment" id="comment${comment.id}">
+                        <p>${comment.content.replaceAll('\n','</br>')}</p>
+                        <p class="comment__info">Il y a ${DateDisplay.relative(comment.creationDate)}.</br>
+                        Par: ${comment.name}</p>
                         </div>
                         `);
                 if (comment.authorId == sessionStorage.getItem("userId")) { // boutons de modif et suppr uniquement si utilisateur = auteur
-                    HtmlContent.fillWith("commentsList", `
+                    HtmlContent.fillWith("comment" + comment.id, `
                                 <button id="modifyCommentButton${comment.id}">Modifier le commentaire</button>
                                 <button id="deleteCommentButton${comment.id}">Supprimer le commentaire</button>`);
 

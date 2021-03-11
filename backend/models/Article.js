@@ -59,20 +59,16 @@ class Article {
             });
     }
     static deleteOne(articleId, callback) {
-        Comment.find(articleId, function(comments) { // on cherche les commentaires liés à l'article
-            if (comments) {
-                console.log('Commentaires qui devraient être supprimés: ', comments);
-                for (let comment of comments) { // s'il y en a, on les supprime
-
-                    Comment.deleteOne(comment.id, function(result) {
-                        if (result) {
-                            callback(result);
-                        }
-                    });
-                }
+        database.query('DELETE FROM articles WHERE id= ?', [articleId], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(null);
             }
         });
-        database.query('DELETE FROM articles WHERE id= ?', [articleId], (error, result) => {
+    }
+    static deleteByUserId(userId, callback) {
+        database.query('DELETE FROM articles WHERE authorId= ?', [userId], (error, result) => {
             if (error) {
                 callback(error);
             } else {

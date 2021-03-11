@@ -1,0 +1,36 @@
+@keyframes loadingspinner {
+    0% {
+        transform: rotate(0);
+    }
+    10% {
+        transform: rotate(-40deg);
+    }
+    15% {
+        transform: rotate(-40deg);
+    }
+    90% {
+        transform: rotate(1120deg);
+    }
+    100% {
+        transform: rotate(1080deg);
+    }
+}
+
+.loading {
+    /* loading screen hiding whole screen for the duration determined */
+    background-color: $color-secondary;
+    position: fixed;
+    top: 18%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    height: 85vh;
+    img {
+        animation: loadingspinner 1.2s infinite;
+    }
+    &--stop {
+        display: none;
+    }
+}
