@@ -69,6 +69,15 @@ class Comment {
             }
         });
     }
+    static count(articleId, callback) {
+        database.query('SELECT COUNT(*) AS count FROM comments WHERE articleId = ?', [articleId], (error, result) => {
+            if (error) {
+                callback(error);
+            } else {
+                callback(result[0]);
+            }
+        });
+    }
 }
 
 module.exports = Comment;

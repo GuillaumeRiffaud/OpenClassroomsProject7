@@ -7,7 +7,17 @@ exports.getAllArticles = (req, res, next) => {
         if (!result) {
             return res.status(404).json({ error: "Une erreur est survenue, impossible de charger les articles !" });
         } else {
-            return res.status(200).json({ result });
+            let loops = 0;
+            for (let uniqueResult of result) {
+                Comment.count(uniqueResult.id, function(comments) {
+                    uniqueResult.commentCount = comments.count;
+                    loops++;
+                    if (loops == result.length) {
+                        return res.status(200).json({ result });
+                    }
+                });
+            }
+
         }
     });
 }
@@ -17,7 +27,10 @@ exports.getOneArticle = (req, res, next) => {
         if (!result) {
             return res.status(404).json({ error: "Une erreur est survenue, chargement de l'article impossible !" });
         } else {
-            return res.status(200).json({ result });
+            Comment.count(req.params.id, function(comments) {
+                result.commentCount = comments.count;
+                return res.status(200).json({ result });
+            });
         }
     });
 }

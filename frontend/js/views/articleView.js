@@ -49,7 +49,7 @@ class ArticleView {
                     HtmlContent.fillWith("articleContainer" + article.id, `<img src="${APIURL}/${article.imageUrl}" alt="L'image associée à cet article" />`);
                 }
                 HtmlContent.fillWith("articleContainer" + article.id, `<p>${article.content.replaceAll('\n','</br>')}</p>`);
-                HtmlContent.fillWith("article" + article.id, `<div class="article__range">233 Likes / 26 Commentaires</div>`);
+                HtmlContent.fillWith("article" + article.id, `<div class="article__range">233 Likes / ${article.commentCount} Commentaire(s)</div>`);
             }
             articles.forEach((item, index, array) => { // rend chaque article cliquable pour accéder à sa page unique
                 if (document.getElementById("article" + item.id)) {
@@ -82,7 +82,7 @@ class ArticleView {
                 <h2>${article.title}</h2>
                 <p class="article__info">Rédigé par ${article.name} le ${DateDisplay.basic(article.creationDate)}</p>
                 <p>${article.content.replaceAll('\n','</br>')}</p>
-                <div class="article__range">233 Likes / 26 Commentaires</div>
+                <div class="article__range">233 Likes / ${article.commentCount} Commentaire(s)</div>
                 
         `);
         if (article.authorId == sessionStorage.getItem("userId")) {
