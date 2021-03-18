@@ -44,7 +44,7 @@ class ArticleController { // non fonctionnel, à faire
             .then(function(response) {
                 LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div class='message'>" + JSON.parse(response).message + "</div>");
+                ArticleView.displayInterface();
             })
             .catch(function(error) {
                 LoadingScreen.stop();
@@ -64,7 +64,7 @@ class ArticleController { // non fonctionnel, à faire
             .then(function(response) {
                 LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div class='message'>" + JSON.parse(response).message + "</div>");
+                ArticleView.displayInterface();
             })
             .catch(function(error) {
                 LoadingScreen.stop();
@@ -81,7 +81,7 @@ class ArticleController { // non fonctionnel, à faire
             .then(function(response) {
                 LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div class='message'>" + JSON.parse(response).message + "</div>");
+                ArticleView.displayInterface();
             })
             .catch(function(error) {
                 LoadingScreen.stop();

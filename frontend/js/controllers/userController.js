@@ -70,6 +70,7 @@ class UserController {
                 HtmlContent.clear("main");
                 HtmlContent.fillWith("main", `
                 <p class='message'>${JSON.parse(response).message}</p>`);
+                UserView.displayForms();
             })
             .catch(function(error) {
                 LoadingScreen.stop();
@@ -103,6 +104,7 @@ class UserController {
                 HtmlContent.clear("main");
                 HtmlContent.fillWith("main", `
                     <p class='message'>${JSON.parse(response).message}</p>`);
+                UserView.displayForms();
             })
             .catch(function(error) {
                 LoadingScreen.stop();

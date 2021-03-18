@@ -1,8 +1,16 @@
 header {
-    background-image: linear-gradient($color-primary-alpha, $color-primary-alpha), url("../images/background-header.png");
+    @include mobile-only {
+        display: flex;
+        flex-direction: column;
+    }
+    background-image: linear-gradient($color-primary-alpha, $color-primary-alpha),
+    url("../images/background-header.png");
     margin: 0;
     padding-bottom: 1%;
     align-items: center;
+    @include mobile-only {
+        align-items: baseline;
+    }
     h1 {
         margin: 0;
         a {
@@ -17,6 +25,11 @@ header {
         position: relative;
         top: 30px;
         left: 60px;
+        @include mobile-only {
+            position: static;
+            width: 80%;
+            margin: 0 auto 3% auto;
+        }
     }
     nav {
         text-align: right;
@@ -24,6 +37,13 @@ header {
         a {
             position: static;
             padding-right: 2%;
+        }
+        @include mobile-only {
+            text-align: left;
+            margin: auto;
+            button {
+                margin-top: 3%;
+            }
         }
     }
 }

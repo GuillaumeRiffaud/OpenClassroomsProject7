@@ -136,6 +136,7 @@ article button {
 
 form {
   margin: 2%;
+  text-align: center;
 }
 
 form .input--text {
@@ -159,6 +160,7 @@ form textarea {
 }
 
 header {
+  /* changing display for mobile */
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(9, 31, 67, 0.8)), to(rgba(9, 31, 67, 0.8))), url("../images/background-header.png");
   background-image: linear-gradient(rgba(9, 31, 67, 0.8), rgba(9, 31, 67, 0.8)), url("../images/background-header.png");
   margin: 0;
@@ -166,6 +168,27 @@ header {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  /* changing display for mobile */
+}
+
+@media screen and (max-width: 700px) and (orientation: portrait) {
+  header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 700px) and (orientation: portrait) {
+  header {
+    -webkit-box-align: baseline;
+        -ms-flex-align: baseline;
+            align-items: baseline;
+  }
 }
 
 header h1 {
@@ -185,16 +208,36 @@ header .home {
   position: relative;
   top: 30px;
   left: 60px;
+  /* changing display for mobile */
+}
+
+@media screen and (max-width: 700px) and (orientation: portrait) {
+  header .home {
+    position: static;
+    width: 80%;
+    margin: 0 auto 3% auto;
+  }
 }
 
 header nav {
   text-align: right;
   margin-right: 1.5%;
+  /* changing display for mobile */
 }
 
 header nav a {
   position: static;
   padding-right: 2%;
+}
+
+@media screen and (max-width: 700px) and (orientation: portrait) {
+  header nav {
+    text-align: left;
+    margin: auto;
+  }
+  header nav button {
+    margin-top: 3%;
+  }
 }
 
 main {
@@ -203,6 +246,10 @@ main {
 
 h2 {
   margin: 2%;
+}
+
+.deleteAccount {
+  text-align: center;
 }
 
 .connectionPortal {
@@ -267,6 +314,13 @@ h2 {
 
 .article--clickable {
   width: 40%;
+  /* changing display for mobile */
+}
+
+@media screen and (max-width: 700px) and (orientation: portrait) {
+  .article--clickable {
+    width: 90%;
+  }
 }
 
 .article--clickable p {

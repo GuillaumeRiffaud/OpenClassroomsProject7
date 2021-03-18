@@ -29,6 +29,9 @@
     }
     &--clickable {
         width: 40%;
+        @include mobile-only {
+            width: 90%;
+        }
         p {
             margin: 0;
             height: 155px;
