@@ -20,6 +20,9 @@ h2 {
     border: 2px solid $color-primary;
     border-radius: 5px;
     padding: 2%;
+    @include mobile-only {
+        max-width: 90%;
+    }
 }
 
 .message {

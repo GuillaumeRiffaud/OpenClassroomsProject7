@@ -264,6 +264,13 @@ h2 {
   border: 2px solid #091f43;
   border-radius: 5px;
   padding: 2%;
+  /* changing display for mobile */
+}
+
+@media screen and (max-width: 700px) and (orientation: portrait) {
+  .connectionPortal {
+    max-width: 90%;
+  }
 }
 
 .message {
