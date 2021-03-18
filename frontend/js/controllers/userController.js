@@ -12,16 +12,21 @@ class UserController {
                 let sessionToken = JSON.parse(response).token;
                 let userId = JSON.parse(response).userId;
                 let username = JSON.parse(response).username;
+                let isAdmin = JSON.parse(response).isAdmin;
                 sessionStorage.setItem("sessionToken", sessionToken);
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem("username", username);
+                if (isAdmin == 1) {
+                    sessionStorage.setItem("isAdmin", isAdmin);
+                }
                 HtmlContent.clear("main");
                 ArticleView.displayInterface();
             })
             .catch(function(error) {
                 LoadingScreen.stop();
                 HtmlContent.clear("main");
-                HtmlContent.fillWith("main", "<div class='message message--error'>" + JSON.parse(error).error + "</div>");
+                HtmlContent.fillWith("main", "<div class='message message--error'>Connexion impossible !</div>");
+                console.log(error);
                 LogInView.display();
             });
     }
@@ -109,6 +114,8 @@ class UserController {
     static logout() {
         sessionStorage.removeItem("sessionToken");
         sessionStorage.removeItem("userId");
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("isAdmin");
         HtmlContent.clear("main");
         HtmlContent.clear("header");
         LogInView.display();

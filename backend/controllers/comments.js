@@ -1,4 +1,5 @@
 const Comment = require('../models/Comment');
+const User = require('../models/User');
 
 exports.getAllComments = (req, res, next) => {
     Comment.find(req.params.id, function(result) {
@@ -32,17 +33,19 @@ exports.modifyComment = (req, res, next) => {
         if (!comment) {
             return res.status(404).json({ error });
         } else {
-            if (comment.authorId == req.body.userId) { // on vérifie que l'auteur connu du commentaire soit bien l'initiateur de la requête
-                Comment.updateOne(req.params.id, req.body.content, function(result) {
-                    if (!result) {
-                        return res.status(201).json({ message: 'Commentaire modifié !' })
-                    } else {
-                        return res.status(400).json({ error: result });
-                    }
-                });
-            } else {
-                return res.status(400).json({ error: 'Bad request !' });
-            }
+            User.findOne("id", req.body.userId, function(user) {
+                if (user.admin != 1 && comment.authorId != req.body.userId) {
+                    return res.status(400).json({ error: "Vous n'êtes pas l'auteur !" });
+                } else {
+                    Comment.updateOne(req.params.id, req.body.content, function(result) {
+                        if (!result) {
+                            return res.status(201).json({ message: 'Commentaire modifié !' })
+                        } else {
+                            return res.status(400).json({ error: result });
+                        }
+                    });
+                }
+            });
         }
     });
 }
@@ -52,17 +55,19 @@ exports.deleteComment = (req, res, next) => {
         if (!comment) {
             return res.status(404).json({ error });
         } else {
-            if (comment.authorId == req.body.userId) {
-                Comment.deleteOne(req.params.id, function(result) {
-                    if (!result) {
-                        res.status(200).json({ message: "Commentaire supprimé !" });
-                    } else {
-                        return res.status(400).json({ error: 'Une erreur est survenue !' });
-                    }
-                })
-            } else {
-                return res.status(400).json({ error: 'Bad request !' });
-            }
+            User.findOne("id", req.body.userId, function(user) {
+                if (user.admin != 1 && comment.authorId != req.body.userId) {
+                    return res.status(400).json({ error: "Vous n'êtes pas l'auteur !" });
+                } else {
+                    Comment.deleteOne(req.params.id, function(result) {
+                        if (!result) {
+                            res.status(200).json({ message: "Commentaire supprimé !" });
+                        } else {
+                            return res.status(400).json({ error: 'Une erreur est survenue !' });
+                        }
+                    });
+                }
+            });
         }
-    })
+    });
 }

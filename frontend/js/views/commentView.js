@@ -16,7 +16,7 @@ class CommentView {
                         Par: ${comment.name}</p>
                         </div>
                         `);
-                if (comment.authorId == sessionStorage.getItem("userId")) { // boutons de modif et suppr uniquement si utilisateur = auteur
+                if ((comment.authorId == sessionStorage.getItem("userId")) || (sessionStorage.getItem("isAdmin") == 1)) { // boutons de modif et suppr uniquement si utilisateur = auteur
                     HtmlContent.fillWith("comment" + comment.id, `
                                 <button id="modifyCommentButton${comment.id}">Modifier le commentaire</button>
                                 <button id="deleteCommentButton${comment.id}">Supprimer le commentaire</button>`);

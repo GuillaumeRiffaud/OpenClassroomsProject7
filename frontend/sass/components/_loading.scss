@@ -20,13 +20,12 @@
     /* loading screen hiding whole screen for the duration determined */
     background-color: $color-secondary;
     position: fixed;
-    top: 18%;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     max-width: 1200px;
-    height: 85vh;
+    height: 100vh;
     img {
         animation: loadingspinner 1.2s infinite;
     }

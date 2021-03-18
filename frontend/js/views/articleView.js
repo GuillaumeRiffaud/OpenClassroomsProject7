@@ -85,7 +85,7 @@ class ArticleView {
                 <div class="article__range">233 Likes / ${article.commentCount} Commentaire(s)</div>
                 
         `);
-        if (article.authorId == sessionStorage.getItem("userId")) {
+        if ((article.authorId == sessionStorage.getItem("userId")) || (sessionStorage.getItem("isAdmin") == 1)) {
             HtmlContent.fillWith("article", `
                 <button id="modifyArticleButton">✏️ Modifier l'article</button>
                 <button id="deleteArticleButton">🗑️ Supprimer l'article</button>`);

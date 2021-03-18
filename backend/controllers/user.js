@@ -28,8 +28,9 @@ exports.signup = (req, res, next) => {
                                 message: 'Utilisateur créé !',
                                 username: result.name,
                                 userId: result.id,
+                                isAdmin: result.admin,
                                 token: jwt.sign({ userId: result.id },
-                                    'NOT_A_SECRET_ENOUGH_TOKEN_FOR_PROD', { expiresIn: '24h' }
+                                    process.env.JWT_TOKEN_KEY, { expiresIn: '24h' }
                                 )
                             });
                         }
@@ -59,8 +60,9 @@ exports.login = (req, res, next) => {
                     res.status(200).json({
                         username: result.name,
                         userId: result.id,
+                        isAdmin: result.admin,
                         token: jwt.sign({ userId: result.id },
-                            'NOT_A_SECRET_ENOUGH_TOKEN_FOR_PROD', { expiresIn: '24h' }
+                            process.env.JWT_TOKEN_KEY, { expiresIn: '24h' }
                         )
                     });
                 })
