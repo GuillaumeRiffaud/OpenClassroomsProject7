@@ -1,4 +1,4 @@
-class ArticleController { // non fonctionnel, à faire
+class ArticleController {
     static loadAll() {
         let userInfo = {
             userId: sessionStorage.getItem("userId"),

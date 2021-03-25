@@ -1,4 +1,5 @@
 const database = require('../config/database');
+const sanitizeHtml = require('sanitize-html');
 
 class Comment {
     static find(articleId, callback) {
@@ -15,13 +16,17 @@ class Comment {
         });
     }
     static save(commentObject, callback) {
-        database.query('INSERT INTO comments SET articleId = ?, authorId = ?, content = ?', [commentObject.articleId, commentObject.userId, commentObject.content], (error, result) => {
-            if (error) {
-                callback(error);
-            } else {
-                callback(null);
-            }
-        });
+        database.query('INSERT INTO comments SET articleId = ?, authorId = ?, content = ?', [commentObject.articleId,
+                commentObject.userId,
+                sanitizeHtml(commentObject.content, { allowedTags: [], allowedAttributes: {} }),
+            ],
+            (error, result) => {
+                if (error) {
+                    callback(error);
+                } else {
+                    callback(null);
+                }
+            });
     }
     static findOne(commentId, callback) {
         database.query(`SELECT * FROM comments WHERE id = ?`, [commentId], (error, result) => {
@@ -33,7 +38,9 @@ class Comment {
         });
     }
     static updateOne(commentId, content, callback) {
-        database.query('UPDATE comments SET content = ? WHERE id = ?', [content, commentId],
+        database.query('UPDATE comments SET content = ? WHERE id = ?', [sanitizeHtml(content, { allowedTags: [], allowedAttributes: {} }),
+                commentId
+            ],
             (error, result) => {
                 if (error) {
                     callback(error);

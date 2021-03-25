@@ -1,13 +1,15 @@
 const { createPool } = require('mysql');
 const database = require('../config/database');
-const Comment = require('../models/Comment');
+const sanitizeHtml = require('sanitize-html');
 
 class Article {
     static find(callback) {
-        database.query(`SELECT articles.id, articles.authorId, articles.creationDate, articles.title, articles.content, articles.imageUrl, users.name FROM articles 
-                            INNER JOIN users
-                                ON articles.authorId = users.id
-                        ORDER BY articles.creationDate DESC`, (error, result) => {
+        database.query(`
+            SELECT articles.id, articles.authorId, articles.creationDate, articles.title, articles.content, articles.imageUrl, users.name,
+            (SELECT COUNT(*) FROM comments WHERE comments.articleId=articles.id) AS commentCount
+            FROM articles,users 
+            WHERE articles.authorId = users.id 
+            ORDER BY articles.creationDate DESC`, (error, result) => {
             if (error) {
                 callback(error);
             } else {
@@ -16,8 +18,11 @@ class Article {
         });
     }
 
+
     static findByUserId(userId, callback) {
-        database.query(`SELECT * FROM articles WHERE authorId = ?`, [userId], (error, result) => {
+        database.query(`SELECT * 
+            FROM articles 
+            WHERE authorId = ?`, [userId], (error, result) => {
             if (error) {
                 callback(error);
             } else {
@@ -27,7 +32,8 @@ class Article {
     }
 
     static findOne(id, callback) {
-        database.query(`SELECT articles.id, articles.authorId, articles.creationDate, articles.title, articles.content, articles.imageUrl, users.name FROM articles 
+        database.query(`SELECT articles.id, articles.authorId, articles.creationDate, articles.title, articles.content, articles.imageUrl, users.name 
+                            FROM articles 
                             INNER JOIN users
                                 ON articles.authorId = users.id
                             WHERE articles.id = ?`, [id], (error, result) => {
@@ -40,7 +46,11 @@ class Article {
     }
 
     static save(articleObject, callback) {
-        database.query('INSERT INTO articles SET authorId = ?, title = ?, content = ?, imageUrl = ?', [articleObject.authorId, articleObject.title, articleObject.content, articleObject.imageUrl], (error, result) => {
+        database.query('INSERT INTO articles SET authorId = ?, title = ?, content = ?, imageUrl = ?', [articleObject.authorId,
+            sanitizeHtml(articleObject.title, { allowedTags: [], allowedAttributes: {} }),
+            sanitizeHtml(articleObject.content, { allowedTags: [], allowedAttributes: {} }),
+            articleObject.imageUrl
+        ], (error, result) => {
             if (error) {
                 callback(error);
             } else {
@@ -49,7 +59,11 @@ class Article {
         });
     }
     static updateOne(articleObject, callback) {
-        database.query('UPDATE articles SET authorId = ?, title = ?, content = ?, imageUrl = ? WHERE id = ?', [articleObject.authorId, articleObject.title, articleObject.content, articleObject.imageUrl, articleObject.id],
+        database.query('UPDATE articles SET authorId = ?, title = ?, content = ?, imageUrl = ? WHERE id = ?', [articleObject.authorId,
+                sanitizeHtml(articleObject.title, { allowedTags: [], allowedAttributes: {} }),
+                sanitizeHtml(articleObject.content, { allowedTags: [], allowedAttributes: {} }),
+                articleObject.imageUrl, articleObject.id
+            ],
             (error, result) => {
                 if (error) {
                     callback(error);

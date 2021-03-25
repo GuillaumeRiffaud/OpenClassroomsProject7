@@ -8,17 +8,7 @@ exports.getAllArticles = (req, res, next) => {
         if (!result) {
             return res.status(404).json({ error: "Une erreur est survenue, impossible de charger les articles !" });
         } else {
-            let loops = 0;
-            for (let uniqueResult of result) {
-                Comment.count(uniqueResult.id, function(comments) {
-                    uniqueResult.commentCount = comments.count;
-                    loops++;
-                    if (loops == result.length) {
-                        return res.status(200).json({ result });
-                    }
-                });
-            }
-
+            return res.status(200).json({ result });
         }
     });
 }
