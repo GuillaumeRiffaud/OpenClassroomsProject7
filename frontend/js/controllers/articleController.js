@@ -74,6 +74,7 @@ class ArticleController {
             });
     }
     static deleteArticle(articleId) {
+        if (!confirm("Voulez-vous vraiment supprimer l'article?")) return;
         let userInfo = {
             userId: sessionStorage.getItem("userId"),
         };

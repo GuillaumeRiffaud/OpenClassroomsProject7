@@ -54,6 +54,7 @@ class CommentController {
     }
 
     static deleteComment(articleId, comment) {
+        if (!confirm("Voulez-vous vraiment supprimer ce commentaire?")) return;
         let userInfo = {
             userId: sessionStorage.getItem("userId"),
         };
